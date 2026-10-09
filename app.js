@@ -224,6 +224,25 @@
     openInfo('A little preparation helps.', '<p>Your authenticated portal explains which documents it needs. Follow those specific instructions when preparing your files.</p><ul><li>The accepted proof of identity listed in your portal.</li><li>The accepted proof of your current address.</li><li>Relevant statements or records that help you check a finding.</li><li>Any response letters you receive from a credit bureau.</li></ul><p>Make sure each file is readable and complete. Keep private documents on your own device until you’re in the authenticated upload area.</p>', 'Prepare · step 04');
   }
 
+  // Checkout progress: the track fills as the details are completed, then moves on at review.
+  function updateCheckoutProgress(stage = 'details') {
+    const track = $('.checkout-progress');
+    if (!track) return;
+    let fill = 0.5;
+    if (stage === 'details') {
+      const form = $('#membership-form');
+      const checks = [
+        form.elements.namedItem('firstName').value.trim() !== '',
+        form.elements.namedItem('lastName').value.trim() !== '',
+        form.elements.namedItem('email').value.trim() !== '' && form.elements.namedItem('email').validity.valid,
+        $('#preview-consent').checked
+      ];
+      fill = (checks.filter(Boolean).length / checks.length) * 0.5;
+    }
+    track.style.setProperty('--fill', fill);
+    $('#checkout-step-details').classList.toggle('done', stage === 'review');
+  }
+
   $('#membership-form').addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -239,18 +258,24 @@
     $('#checkout-review').hidden = false;
     $('#checkout-step-details').classList.remove('current');
     $('#checkout-step-review').classList.add('current');
+    updateCheckoutProgress('review');
     const heading = $('#checkout-review h2');
     heading.setAttribute('tabindex', '-1');
     heading.focus({ preventScroll: true });
     $('#checkout-review').scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
-  $$('#membership-form input').forEach((input) => input.addEventListener('input', () => input.setCustomValidity('')));
+  $$('#membership-form input').forEach((input) => {
+    input.addEventListener('input', () => { input.setCustomValidity(''); updateCheckoutProgress(); });
+    input.addEventListener('change', () => updateCheckoutProgress());
+    input.addEventListener('blur', () => input.classList.add('touched'));
+  });
   $('#use-sample').addEventListener('click', () => {
     const form = $('#membership-form');
     form.elements.namedItem('firstName').value = 'Alex';
     form.elements.namedItem('lastName').value = 'Taylor';
     form.elements.namedItem('email').value = 'alex@example.com';
     $$('#membership-form input').forEach((input) => input.setCustomValidity(''));
+    updateCheckoutProgress();
     $('#preview-consent').focus();
     toast('Sample details added. Review the preview notice to continue.');
   });
@@ -259,6 +284,7 @@
     $('#checkout-review').hidden = true;
     $('#checkout-step-details').classList.add('current');
     $('#checkout-step-review').classList.remove('current');
+    updateCheckoutProgress();
     $('#first-name').focus();
   });
   $('#finish-preview').addEventListener('click', () => {
