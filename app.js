@@ -272,6 +272,20 @@
       if (index !== undefined) { event.preventDefault(); selectStep(index, true); }
     });
   });
+  // Home step cards open the matching step in "How it works".
+  $$('[data-step-link]').forEach((card) => card.addEventListener('click', (event) => {
+    event.preventDefault();
+    selectStep(Number(card.dataset.stepLink));
+    $('#how-it-works').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }));
+  // Until a step photo is added to assets/steps, the card shows its icon instead.
+  $$('.step-media img').forEach((img) => {
+    const hide = () => { img.hidden = true; };
+    if (img.complete && !img.naturalWidth) hide();
+    else img.addEventListener('error', hide);
+    img.addEventListener('load', () => img.closest('.step-media').classList.add('has-photo'));
+    if (img.complete && img.naturalWidth) img.closest('.step-media').classList.add('has-photo');
+  });
   document.addEventListener('click', (event) => {
     const button = event.target.closest('button');
     if (!button) return;
