@@ -136,13 +136,39 @@
     $('#guide-content').innerHTML = `<div class="guide-header"><span class="eyebrow">Your welcome walkthrough · ${guideStep + 1} of 4</span><h2 id="guide-title">A process you can follow.</h2></div><div class="guide-body"><div class="guide-visual" style='--panel-photo:${stepPhoto(guideStep)}'><div class="demo-ui">${step.ui}</div><span class="example-label" style="align-self:flex-start;margin-top:14px">Illustrative preview</span></div><div class="guide-copy"><span class="eyebrow">${step.intro}</span><h3>${step.title}</h3><p>${step.description}</p><p class="your-part">${step.action}</p></div></div><div class="guide-footer"><div class="guide-dots" aria-label="Walkthrough pages">${steps.map((_, i) => `<button class="${guideStep === i ? 'active' : ''}" data-guide-page="${i}" aria-label="Step ${i + 1}" ${guideStep === i ? 'aria-current="step"' : ''}></button>`).join('')}</div><div class="guide-controls">${guideStep > 0 ? '<button class="text-button" data-guide-previous>← Back</button>' : ''}<button class="button" data-guide-next>${guideStep === 3 ? 'Finish walkthrough' : 'Next step'} ${icon('arrow')}</button></div></div>`;
   }
 
+  // Wistia: load the player scripts once, the first time the walkthrough video is opened.
+  function loadWistia(mediaId) {
+    if (!document.querySelector('script[data-wistia-player]')) {
+      const player = document.createElement('script');
+      player.src = 'https://fast.wistia.com/player.js';
+      player.async = true;
+      player.dataset.wistiaPlayer = '';
+      document.head.append(player);
+    }
+    if (!document.querySelector(`script[data-wistia-media="${mediaId}"]`)) {
+      const media = document.createElement('script');
+      media.src = `https://fast.wistia.com/embed/${mediaId}.js`;
+      media.type = 'module';
+      media.async = true;
+      media.dataset.wistiaMedia = mediaId;
+      document.head.append(media);
+    }
+  }
+
   function openGuide(index = 0) {
     guideStep = Number.isInteger(index) && index >= 0 && index < 4 ? index : 0;
+    const header = '<div class="guide-header"><span class="eyebrow">Get to know CreditPulse</span><h2 id="guide-title">Your next steps, explained.</h2></div>';
+    const textLink = '<button class="text-link" data-text-guide style="margin-top:18px">Read the step-by-step guide instead</button>';
+    const wistiaId = /^[a-z0-9]{6,20}$/i.test(config.wistiaMediaId || '') ? config.wistiaMediaId : '';
     const videoSetting = activeView === 'welcome' ? config.welcomeVideoUrl : config.overviewVideoUrl;
     // Videos hosted with the site (assets/...) are allowed as-is; anything else must be a safe https URL.
     const videoUrl = /^assets\/[\w./-]+\.mp4$/.test(videoSetting || '') ? videoSetting : safeUrl(videoSetting);
-    if (videoUrl) {
-      $('#guide-content').innerHTML = '<div class="guide-header"><span class="eyebrow">Get to know CreditPulse</span><h2 id="guide-title">Your next steps, explained.</h2></div><div class="video-wrap"><video class="guide-video" controls playsinline preload="metadata"></video><button class="text-link" data-text-guide style="margin-top:18px">Read the step-by-step guide instead</button></div>';
+    if (wistiaId) {
+      loadWistia(wistiaId);
+      $('#guide-content').innerHTML = `${header}<div class="video-wrap"><div class="wistia-frame"><wistia-player media-id="${wistiaId}" seo="false" aspect="1.7777777777777777"></wistia-player></div>${textLink}</div>`;
+      $('.wistia-frame').style.setProperty('--wistia-swatch', `url("https://fast.wistia.com/embed/medias/${wistiaId}/swatch")`);
+    } else if (videoUrl) {
+      $('#guide-content').innerHTML = `${header}<div class="video-wrap"><video class="guide-video" controls playsinline preload="metadata"></video>${textLink}</div>`;
       const video = $('.guide-video');
       if (config.videoPoster) video.poster = config.videoPoster;
       video.src = videoUrl;
@@ -150,7 +176,10 @@
     openDialog($('#guide-dialog'));
     const playing = $('.guide-video');
     if (playing) playing.play().catch(() => {});
+    const wistia = $('#guide-content wistia-player');
+    if (wistia) customElements.whenDefined('wistia-player').then(() => { try { const r = wistia.play?.(); if (r?.catch) r.catch(() => {}); } catch {} });
   }
+
 
   function readProgress() {
     try {
@@ -364,6 +393,8 @@
     dialog.addEventListener('close', () => {
       const video = $('video', dialog);
       if (video) video.pause();
+      const wistia = $('wistia-player', dialog);
+      if (wistia) { try { wistia.pause?.(); } catch {} }
       if (!document.querySelector('dialog[open]')) {
         document.body.style.overflow = '';
         if (dialogTrigger?.isConnected) dialogTrigger.focus({ preventScroll: true });

@@ -6,6 +6,8 @@ window.CREDITPULSE_CONFIG = Object.freeze({
   overviewVideoUrl: 'assets/video/walkthrough.mp4',
   welcomeVideoUrl: 'assets/video/walkthrough.mp4',
   videoPoster: 'assets/video/walkthrough-poster.jpg',
+  // Wistia video (takes priority over the MP4 above when set).
+  wistiaMediaId: 'n1mv2gt9yu',
   termsUrl: '',
   privacyUrl: '',
   supportEmail: ''
