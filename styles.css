@@ -57,3 +57,10 @@ dialog{padding:0;border:0;border-radius:10px;color:var(--ink);background:var(--p
 @media(max-width:800px){.hero-banner{min-height:520px;border-radius:18px}.hero-copy{padding:60px 26px}.step-cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.hero{padding-top:16px}.hero-banner{min-height:0;border-radius:16px}.hero-banner>img{object-position:62% 30%}.hero-copy{padding:56px 20px 48px}.hero-eyebrow{font-size:8px;letter-spacing:.11em;padding:6px 12px}.hero h1{font-size:clamp(46px,13vw,58px)}.hero-description{font-size:14px}.hero-cta{flex-direction:column;width:100%;max-width:340px;padding:14px 6px 6px;border-radius:22px;gap:10px}.hero-price{padding:0}.hero-button{width:100%}.hero-note{font-size:10px}.steps-head{margin-top:28px}.steps-more{font-size:11px}.step-cards{gap:12px}.step-media>.icon{width:34px;height:34px}.step-num{top:8px;left:8px;font-size:9px;padding:3px 8px}.step-body{padding:12px 12px 14px}.step-body>.icon{display:none}.step-body strong{font-size:12px}.step-body small{font-size:10px}}
 @media(max-width:360px){.hero h1{font-size:42px}.step-cards{grid-template-columns:1fr}}
+/* Logo with "Credit Rebuilding" tagline — sized to fit inside the existing header height */
+.brand{flex-direction:column;align-items:stretch;gap:3px;width:152px}
+.brand-tag{display:block;font-size:9px;font-weight:650;line-height:1;letter-spacing:.34em;text-transform:uppercase;text-align:center;color:#4f7d3a;padding-left:.34em;white-space:nowrap}
+.footer-top .brand{width:132px}.footer-top .brand-tag{font-size:8px}
+@media(max-width:800px){.brand{width:140px}.brand-tag{font-size:8px}}
+@media(max-width:600px){.brand{width:136px}.footer-top .brand{width:128px}}
+@media(max-width:360px){.brand{width:118px}.brand-tag{font-size:7px;letter-spacing:.3em}}
