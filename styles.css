@@ -264,3 +264,26 @@ dialog{padding:0;border:0;border-radius:10px;color:var(--ink);background:var(--p
 @media(max-width:1100px){.membership-section{gap:48px}.pricing-card{padding:34px 30px 28px}.pricing-card .price{font-size:72px}}
 @media(max-width:800px){.membership-section{grid-template-columns:1fr;gap:40px}.membership-detail{max-width:none}}
 @media(max-width:600px){.membership-editorial>p{font-size:17px;padding-left:16px}.membership-detail{padding:16px;gap:14px;border-radius:18px}.membership-detail>.icon{width:44px;height:44px;padding:11px;border-radius:14px}.membership-detail:hover{transform:none}.pricing-card{padding:30px 22px 24px;border-radius:24px}.pricing-card:hover{transform:none}.pricing-card .price{font-size:68px}.pricing-card .check-list li{font-size:16px}.pricing-card>.pricing-cta{font-size:16px;padding-left:24px}}
+/* Welcome teaser — "01 your first step" card */
+.welcome-teaser{display:block;border:0;padding-block:48px}
+.welcome-card{position:relative;overflow:hidden;isolation:isolate;display:grid;grid-template-columns:auto 1fr .82fr;align-items:center;gap:52px;padding:44px 44px 44px 52px;border-radius:32px;border:1px solid rgba(99,164,72,.16);background:radial-gradient(circle at 0% 0%,rgba(159,208,127,.32),transparent 40%),radial-gradient(circle at 70% 120%,rgba(99,164,72,.14),transparent 45%),linear-gradient(135deg,#eef4e6 0%,#f7f9f2 60%,#eef3e7 100%);box-shadow:0 26px 60px rgba(23,59,43,.08)}
+.welcome-mark{position:relative;width:170px;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0;text-align:center;color:inherit;letter-spacing:0;line-height:1}
+.mark-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);fill:none;stroke-width:5}
+.ring-track{stroke:rgba(23,59,43,.08)}
+.ring-fill{stroke:#63a448;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:254.5;transition:stroke-dashoffset 1.4s var(--ease) .2s}
+.js-reveal .welcome-card:not(.in-view) .ring-fill{stroke-dashoffset:339.3}
+.welcome-mark::before{content:'';position:absolute;inset:18px;border-radius:50%;background:#fff;box-shadow:0 12px 30px rgba(23,59,43,.1),inset 0 1px 0 #fff}
+.welcome-mark .mark-num{position:relative;display:block;margin:0;font-family:var(--serif);font-size:64px;font-weight:400;letter-spacing:-.06em;line-height:1;text-transform:none;color:var(--forest);transition:color .3s}
+.welcome-mark .mark-label{position:relative;display:block;max-width:90px;margin-top:8px;font-family:var(--sans);font-size:11px;font-weight:650;letter-spacing:.14em;line-height:1.4;text-transform:uppercase;color:#5d8056}
+.welcome-copy h2{font-size:clamp(36px,3.6vw,50px);margin:0}
+.welcome-copy p{margin:20px 0 0;max-width:470px;font-size:18px;line-height:1.7;color:#4b584d}
+.welcome-cta{margin-top:30px}
+.welcome-photo{position:relative;align-self:stretch;min-height:280px;border-radius:24px;overflow:hidden;box-shadow:0 20px 44px rgba(23,59,43,.18)}
+.welcome-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% center;transition:transform .8s var(--ease)}
+.welcome-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,59,43,.12),rgba(16,45,33,.42));mix-blend-mode:multiply}
+.welcome-card:hover .welcome-photo img{transform:scale(1.05)}
+.welcome-card:hover .welcome-mark .mark-num{color:#4f7d3a}
+@media(max-width:1100px){.welcome-card{grid-template-columns:auto 1fr;gap:36px;padding:38px}.welcome-photo{display:none}}
+@media(max-width:800px){.welcome-teaser{padding-block:36px}.welcome-mark{width:140px;height:140px}.mark-num{font-size:52px}.welcome-mark::before{inset:15px}.welcome-mark .mark-num{font-size:52px}.welcome-mark .mark-label{font-size:10px;max-width:80px}}
+@media(max-width:600px){.welcome-teaser{padding-block:28px}.welcome-card{grid-template-columns:1fr;gap:24px;padding:28px 20px;border-radius:24px}.welcome-mark{display:flex;width:136px;height:136px;text-align:center}.welcome-mark .mark-num{font-size:42px}.welcome-mark::before{inset:14px}.welcome-mark .mark-label{max-width:76px;font-size:9px;letter-spacing:.1em;margin-top:5px}.welcome-copy h2{font-size:36px}.welcome-copy p{font-size:17px}.welcome-cta{width:100%;justify-content:space-between;font-size:15px}}
+@media(prefers-reduced-motion:reduce){.ring-fill{transition:none}}
