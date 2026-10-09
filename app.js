@@ -178,6 +178,8 @@
     });
     $('#progress-count').textContent = `${complete}/4`;
     $('#progress-circle').style.strokeDashoffset = String(320.442 * (1 - complete / 4));
+    $('#checklist-bar-fill').style.width = `${(complete / 4) * 100}%`;
+    $('.checklist-panel').classList.toggle('all-done', complete === 4);
     $('#checklist-status').textContent = complete === 4 ? 'You’re ready for the next step.' : complete === 0 ? 'Let’s begin.' : `${complete} of 4 complete`;
     if (!storageAvailable) {
       $('#storage-message').hidden = false;
