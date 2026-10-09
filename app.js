@@ -127,7 +127,7 @@
   }
 
   function openInfo(title, content, eyebrow = 'A little clarity') {
-    $('#info-content').innerHTML = `<span class="eyebrow">${eyebrow}</span><h2 id="info-title">${title}</h2>${content}`;
+    $('#info-content').innerHTML = `${eyebrow ? `<span class="eyebrow">${eyebrow}</span>` : ''}<h2 id="info-title">${title}</h2>${content}`;
     openDialog($('#info-dialog'));
   }
 
@@ -198,7 +198,7 @@
   function showPortal() {
     const target = safeUrl(config.dashboardUrl);
     if (target) { window.location.assign(target); return; }
-    openInfo('Your client portal is next.', '<p>The client portal is where you upload your reports, review findings, approve letters and follow your case.</p><p>The existing app’s sign-in address hasn’t been connected to this website yet. Your preview checklist will remain here when you return.</p><button class="button" data-close-info>Return to my next step</button>', 'Client portal connection');
+    openInfo('Your client portal is next.', '<p>The client portal is where you upload your reports, review findings, approve letters and follow your case.</p><p>The existing app’s sign-in address hasn’t been connected to this website yet. Your preview checklist will remain here when you return.</p><button class="button" data-close-info>Return to my next step</button>', '');
   }
 
   function help() {
