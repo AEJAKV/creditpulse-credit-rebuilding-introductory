@@ -67,3 +67,8 @@ dialog{padding:0;border:0;border-radius:10px;color:var(--ink);background:var(--p
 /* Larger-text mobile fixes */
 .example-label{white-space:nowrap}.panel-kicker{gap:12px}
 @media(max-width:600px){.steps-more{display:none}.steps-head{margin-bottom:14px}.closing h2 br{display:none}.closing h2 em{display:block}.welcome-progress{width:72px;height:72px}.welcome-progress span{display:none}.welcome-progress strong{font-size:24px}.welcome-header h1{max-width:calc(100% - 80px)}}
+/* Subtle forest-green wash over the step photos, matching the hero */
+.step-media::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(23,59,43,.22) 0%,rgba(23,59,43,.3) 60%,rgba(16,45,33,.48) 100%);mix-blend-mode:multiply;transition:opacity .4s}
+.step-media:not(.has-photo)::after{display:none}
+.step-card:hover .step-media::after{opacity:.6}
+.step-num{z-index:2}
