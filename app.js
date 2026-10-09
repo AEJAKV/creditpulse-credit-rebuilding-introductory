@@ -354,6 +354,15 @@
     link.href = checkoutUrl;
     link.hidden = false;
   }
+  // Gentle fade-up for sections marked .reveal as they scroll into view.
+  const revealItems = $$('.reveal');
+  if ('IntersectionObserver' in window && revealItems.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('js-reveal');
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
+    }), { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+    revealItems.forEach((item) => observer.observe(item));
+  }
   window.addEventListener('hashchange', navigate);
   window.addEventListener('storage', (event) => { if (event.key === storageKey) { readProgress(); renderProgress(); } });
   $('#copyright-year').textContent = String(new Date().getFullYear());
