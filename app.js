@@ -62,6 +62,13 @@
     toastTimer = setTimeout(() => node.classList.remove('visible'), 3400);
   }
 
+  // Reuse the matching home step-card photo as the soft backdrop behind the glass panel.
+  function stepPhoto(index) {
+    const img = $(`[data-step-link="${index}"] img`);
+    const src = img && !img.hidden ? img.getAttribute('src') : '';
+    return src ? `url("${src}")` : 'none';
+  }
+
   function selectStep(index, focus = false) {
     const step = steps[index];
     if (!step) return;
@@ -73,6 +80,7 @@
     });
     const panel = $('#step-panel');
     panel.setAttribute('aria-labelledby', `step-tab-${index}`);
+    panel.style.setProperty('--panel-photo', stepPhoto(index));
     panel.innerHTML = `<div class="panel-kicker"><span>Inside your client portal</span><span class="example-label">Illustrative preview</span></div><div class="demo-ui">${step.ui}</div><p class="panel-caption">${step.caption}</p>`;
   }
 
@@ -125,7 +133,7 @@
 
   function renderGuide() {
     const step = steps[guideStep];
-    $('#guide-content').innerHTML = `<div class="guide-header"><span class="eyebrow">Your welcome walkthrough · ${guideStep + 1} of 4</span><h2 id="guide-title">A process you can follow.</h2></div><div class="guide-body"><div class="guide-visual"><div class="demo-ui">${step.ui}</div><span class="example-label" style="align-self:flex-start;margin-top:12px">Illustrative preview</span></div><div class="guide-copy"><span class="eyebrow">${step.intro}</span><h3>${step.title}</h3><p>${step.description}</p><p class="your-part">${step.action}</p></div></div><div class="guide-footer"><div class="guide-dots" aria-label="Walkthrough pages">${steps.map((_, i) => `<button class="${guideStep === i ? 'active' : ''}" data-guide-page="${i}" aria-label="Step ${i + 1}" ${guideStep === i ? 'aria-current="step"' : ''}></button>`).join('')}</div><div class="guide-controls">${guideStep > 0 ? '<button class="text-button" data-guide-previous>← Back</button>' : ''}<button class="button" data-guide-next>${guideStep === 3 ? 'Finish walkthrough' : 'Next step'} ${icon('arrow')}</button></div></div>`;
+    $('#guide-content').innerHTML = `<div class="guide-header"><span class="eyebrow">Your welcome walkthrough · ${guideStep + 1} of 4</span><h2 id="guide-title">A process you can follow.</h2></div><div class="guide-body"><div class="guide-visual" style='--panel-photo:${stepPhoto(guideStep)}'><div class="demo-ui">${step.ui}</div><span class="example-label" style="align-self:flex-start;margin-top:14px">Illustrative preview</span></div><div class="guide-copy"><span class="eyebrow">${step.intro}</span><h3>${step.title}</h3><p>${step.description}</p><p class="your-part">${step.action}</p></div></div><div class="guide-footer"><div class="guide-dots" aria-label="Walkthrough pages">${steps.map((_, i) => `<button class="${guideStep === i ? 'active' : ''}" data-guide-page="${i}" aria-label="Step ${i + 1}" ${guideStep === i ? 'aria-current="step"' : ''}></button>`).join('')}</div><div class="guide-controls">${guideStep > 0 ? '<button class="text-button" data-guide-previous>← Back</button>' : ''}<button class="button" data-guide-next>${guideStep === 3 ? 'Finish walkthrough' : 'Next step'} ${icon('arrow')}</button></div></div>`;
   }
 
   function openGuide(index = 0) {
