@@ -17,7 +17,7 @@ dialog{padding:0;border:0;border-radius:10px;color:var(--ink);background:var(--p
 .hero-banner{position:relative;isolation:isolate;overflow:hidden;border-radius:22px;min-height:clamp(470px,60vh,590px);display:grid;place-items:center;text-align:center;background:var(--forest)}
 .hero-banner>img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center 32%}
 .hero-shade{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(13,38,27,.5),transparent 75%),linear-gradient(180deg,rgba(16,45,33,.55) 0%,rgba(16,45,33,.62) 55%,rgba(10,32,22,.8) 100%)}
-.hero-copy{width:min(780px,100%);padding:56px 32px;color:#fff;display:flex;flex-direction:column;align-items:center}
+.hero-copy{width:min(780px,100%);padding:88px 32px 40px;color:#fff;display:flex;flex-direction:column;align-items:center}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(6px);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#e3ecd8}
 .hero-eyebrow .status-dot{background:#9fd07f}
 .hero h1{color:#fff;font-size:clamp(54px,6.6vw,96px);line-height:.98;letter-spacing:-.045em;margin-top:24px;text-shadow:0 2px 30px rgba(0,0,0,.18)}
