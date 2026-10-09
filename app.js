@@ -138,12 +138,18 @@
 
   function openGuide(index = 0) {
     guideStep = Number.isInteger(index) && index >= 0 && index < 4 ? index : 0;
-    const videoUrl = safeUrl(activeView === 'welcome' ? config.welcomeVideoUrl : config.overviewVideoUrl);
+    const videoSetting = activeView === 'welcome' ? config.welcomeVideoUrl : config.overviewVideoUrl;
+    // Videos hosted with the site (assets/...) are allowed as-is; anything else must be a safe https URL.
+    const videoUrl = /^assets\/[\w./-]+\.mp4$/.test(videoSetting || '') ? videoSetting : safeUrl(videoSetting);
     if (videoUrl) {
       $('#guide-content').innerHTML = '<div class="guide-header"><span class="eyebrow">Get to know CreditPulse</span><h2 id="guide-title">Your next steps, explained.</h2></div><div class="video-wrap"><video class="guide-video" controls playsinline preload="metadata"></video><button class="text-link" data-text-guide style="margin-top:18px">Read the step-by-step guide instead</button></div>';
-      $('.guide-video').src = videoUrl;
+      const video = $('.guide-video');
+      if (config.videoPoster) video.poster = config.videoPoster;
+      video.src = videoUrl;
     } else renderGuide();
     openDialog($('#guide-dialog'));
+    const playing = $('.guide-video');
+    if (playing) playing.play().catch(() => {});
   }
 
   function readProgress() {
