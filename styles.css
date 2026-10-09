@@ -374,3 +374,40 @@ dialog{padding:0;border:0;border-radius:10px;color:var(--ink);background:var(--p
 .hero-watch:active .watch-label>span{background-size:100% 3px;background-image:linear-gradient(#fff,#fff)}
 /* Touch screens have no hover, so the line is always shown there */
 @media(hover:none){.watch-label>span{background-size:100% 2px}}
+/* ---------- Final touches: subtle motion ---------- */
+/* Staggered reveal delay for grouped items */
+.js-reveal .reveal{transition-delay:var(--reveal-delay,0s)}
+/* Hero entrance on page load */
+@keyframes hero-rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes hero-settle{from{transform:scale(1.08)}to{transform:scale(1)}}
+.hero-banner>img{animation:hero-settle 2.4s cubic-bezier(.22,1,.36,1) both}
+.hero-copy>*{animation:hero-rise .9s cubic-bezier(.22,1,.36,1) both}
+.hero-copy>h1{animation-delay:.12s}
+.hero-copy>.hero-description{animation-delay:.26s}
+.hero-copy>.hero-cta{animation-delay:.4s}
+.hero-copy>.hero-watch{animation-delay:.54s}
+.hero-copy>.hero-note{animation-delay:.66s}
+/* Header shadow once scrolled */
+.site-header{transition:box-shadow .3s,background-color .3s}
+.site-header.scrolled{box-shadow:0 8px 30px rgba(23,59,43,.08);background:rgba(255,255,255,.98)}
+/* Process tabs: soft hover nudge */
+.process-tab{transition:background-color .25s,padding-left .3s var(--ease)}
+.process-tab:hover:not(.active){padding-left:8px}
+/* FAQ: hover tint and smooth open */
+.faq-list summary{transition:color .2s,padding-left .3s var(--ease)}
+.faq-list summary:hover{color:#4f7d3a;padding-left:6px}
+@keyframes faq-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.faq-list details>p.faq-open{animation:faq-in .4s cubic-bezier(.22,1,.36,1)}
+/* Closing section: the pulse line draws itself, the button breathes */
+.closing-pulse path{stroke-dasharray:1400;stroke-dashoffset:0}
+.js-reveal .closing .wrap:not(.in-view)~.closing-pulse path{stroke-dashoffset:1400}
+.closing-pulse path{transition:stroke-dashoffset 2.6s cubic-bezier(.45,.05,.2,1) .2s}
+@keyframes cta-breathe{0%,100%{box-shadow:0 0 0 0 rgba(191,220,166,0)}50%{box-shadow:0 0 0 8px rgba(191,220,166,.18)}}
+.closing .button{animation:cta-breathe 3.2s ease-in-out infinite}
+.closing .button:hover{animation:none}
+/* Footer links */
+.footer-top button{position:relative;transition:color .2s}
+.footer-top button::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.footer-top button:hover{color:var(--forest)}
+.footer-top button:hover::after{transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){.hero-banner>img,.hero-copy>*,.closing .button,.faq-list details>p.faq-open{animation:none}.closing-pulse path{transition:none}}

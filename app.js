@@ -419,6 +419,24 @@
     link.href = checkoutUrl;
     link.hidden = false;
   }
+  // Mark more elements for the scroll reveal, with a small stagger inside groups.
+  [
+    '.steps-head', '.process-section .section-heading', '.process-tabs', '.process-panel',
+    '.faq-section > div:first-child', '.closing .wrap'
+  ].forEach((selector) => $$(selector).forEach((el) => el.classList.add('reveal')));
+  [['.step-cards > li', 0.09], ['.faq-list details', 0.06]].forEach(([selector, step]) => {
+    $$(selector).forEach((el, i) => { el.classList.add('reveal'); el.style.setProperty('--reveal-delay', `${(i * step).toFixed(2)}s`); });
+  });
+  // FAQ answers ease open instead of snapping.
+  $$('.faq-list details').forEach((details) => details.addEventListener('toggle', () => {
+    const answer = $('p', details);
+    if (details.open && answer) { answer.classList.remove('faq-open'); void answer.offsetWidth; answer.classList.add('faq-open'); }
+  }));
+  // Header gains a soft shadow once the page scrolls.
+  const header = $('.site-header');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
   // Gentle fade-up for sections marked .reveal as they scroll into view.
   const revealItems = $$('.reveal');
   if ('IntersectionObserver' in window && revealItems.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
