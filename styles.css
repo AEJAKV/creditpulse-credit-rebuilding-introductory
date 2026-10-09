@@ -368,3 +368,10 @@ dialog{padding:0;border:0;border-radius:10px;color:var(--ink);background:var(--p
 .hero-watch:hover .play-circle,.hero-watch:focus-visible .play-circle{animation:none;background:#fff;color:var(--forest);transform:scale(1.08)}
 .hero-watch:hover .play-circle::before,.hero-watch:hover .play-circle::after{animation:none;opacity:0}
 @media(prefers-reduced-motion:reduce){.hero-watch .play-circle,.hero-watch .play-circle::before,.hero-watch .play-circle::after{animation:none}}
+/* Underline on "Watch the program walkthrough" — grows on hover, tap and keyboard focus */
+.watch-label{position:relative;padding-bottom:4px}
+.watch-label::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:#bfdca6;transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease),height .2s}
+.hero-watch:hover .watch-label::after,.hero-watch:focus-visible .watch-label::after,.hero-watch:active .watch-label::after{transform:scaleX(1)}
+.hero-watch:active .watch-label::after{height:3px}
+/* Touch screens have no hover, so the line is always shown there */
+@media(hover:none){.watch-label::after{transform:scaleX(1);background:rgba(191,220,166,.85)}.hero-watch:active .watch-label::after{background:#fff}}
