@@ -389,6 +389,15 @@
     }), { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
     revealItems.forEach((item) => observer.observe(item));
   }
+  // Pricing card: a soft light follows the pointer on devices that hover.
+  const pricingCard = $('.pricing-card');
+  if (pricingCard && window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
+    pricingCard.addEventListener('pointermove', (event) => {
+      const rect = pricingCard.getBoundingClientRect();
+      pricingCard.style.setProperty('--mx', `${((event.clientX - rect.left) / rect.width) * 100}%`);
+      pricingCard.style.setProperty('--my', `${((event.clientY - rect.top) / rect.height) * 100}%`);
+    });
+  }
   window.addEventListener('hashchange', navigate);
   window.addEventListener('storage', (event) => { if (event.key === storageKey) { readProgress(); renderProgress(); } });
   $('#copyright-year').textContent = String(new Date().getFullYear());
